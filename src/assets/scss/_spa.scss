@@ -1,6 +1,6 @@
 .bg {
     &-body {
-        background-image: url(/images/pattern.png);
+        background-image: url('~@/assets/images/pattern.png');
         background-repeat: repeat;
     }
     &-header {
@@ -46,7 +46,7 @@
         height: 485px;
         &:after {
             content: "";
-            background-image: url(/images/pastel-paralax.png);
+            background-image: url('~@/assets/images/pastel-paralax.png');
             position: absolute;
             width: 388px;
             height: 476px;
