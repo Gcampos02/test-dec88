@@ -11,9 +11,9 @@
 <script>
 export default {
   name: 'App',
-  mounted() {
+  mounted () {
     console.log(this.$firebase)
-  },
+  }
 }
 </script>
 
