@@ -12,6 +12,9 @@
         .center-img {
             max-width: 850px;
             margin: 0 auto;
+            @media (max-width: $tablet) {
+              max-width: 500px;
+            }
         }
         img {
             padding-top: 60px;
@@ -32,15 +35,22 @@
     margin-top: -195px;
     position: relative;
     margin-bottom: 140px;
+    @media (max-width: $tablet) {
+      max-width: 720px;
+      margin-bottom: 100px;
+    }
     .float-pastel {
         &-r {
             position: absolute;
-            right: -60px;
+            right: -40px;
             top: -160px;
+            @media (max-width: $tablet) {
+              display: none;
+            }
         }
     }
     .form {
-        max-width: 1180px;
+        width: 100%;
         background-color: $white;
         border-radius: 20px;
         &:after {
@@ -51,11 +61,17 @@
             height: 476px;
             top: -285px;
             left: -240px;
+            @media (max-width: $tablet) {
+              display: none;
+            }
         }
         &-header {
             background-color: $yellow-000;
             border-radius: 20px 20px 0px 0px;
             padding: 25px 60px 40px 60px;
+            @media (max-width: $tablet) {
+              padding: 25px 30px 40px 30px;
+            }
             p {
                 font-size: 24px;
                 line-height: 29px;
@@ -127,6 +143,9 @@
             background-color: $red-001;
             font-style: italic;
             font-weight: bold;
+            @media (max-width: $tablet) {
+              padding-left: 225px;
+            }
             .title {
                 font-size: 30px;
                 color: $yellow-000;
@@ -144,6 +163,9 @@
             font-size: 24px;
             line-height: 29px;
             color: $red-000;
+            @media (max-width: $tablet) {
+              padding-left: 225px;
+            }
             p { 
                 font-style: italic;
                 font-weight: bold;

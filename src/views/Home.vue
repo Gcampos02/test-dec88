@@ -47,7 +47,7 @@
                   type="file"
                   id="sendImg"
                   name="img"
-                  accept="image/*"
+                  accept="image/jpeg, image/png"
                   required
                 />
                 <div v-if="url" class="img-prev">

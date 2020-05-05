@@ -36,6 +36,9 @@
 .container{
     max-width: 1180px;
     margin: 0 auto;
+    @media (max-width: $tablet) {
+      max-width: 720px;
+    }
 }
 
 .z{
@@ -68,12 +71,14 @@
         width: 20%;
     }
     &-btn{
-        width: 445px;
+        width: 100%;
         display: flex;
-        justify-content: space-between;
+        justify-content:center;
         position: absolute;
         bottom: -30px;
-        left: 50vh;
+        .btn{
+          margin: 0px 20px
+        }
     }
 }
 
