@@ -68,10 +68,12 @@
         width: 20%;
     }
     &-btn{
-        max-width: 445px;
+        width: 445px;
         display: flex;
         justify-content: space-between;
-        margin: 0 auto;
+        position: absolute;
+        bottom: -30px;
+        left: 50vh;
     }
 }
 
