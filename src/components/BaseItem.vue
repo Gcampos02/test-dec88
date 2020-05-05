@@ -5,12 +5,12 @@
           </div>
           <div class="item-box">
               <div class="item-box-header">
-                  <p class="title">Pastel sabor Carne</p>
-                  <p class="value">R$10,00</p>
+                  <p class="title">{{item.titulo}}</p>
+                  <p class="value" v-money-format='item.valor'></p>
               </div>
               <div class="item-box-body">
-                  <p>Sabor: <span>PowerPoint importante</span></p>
-                  <p>Descrição: <span>1 PPT, 6834 slides e uma pitada de animação</span></p>
+                   <p>Sabor: <span>{{item.sabor}}</span></p>
+                  <p>Descrição: <span>{{item.descricao}}</span></p>
               </div>
           </div>
       </div>
@@ -19,14 +19,13 @@
 
 <script>
 export default {
-  // name: 'HelloWorld',
-  // props: {
-  //   msg: String
-  // }
+  name: 'BaseItem',
+  props: {
+    item: { type: Object, required: true }
+  }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 
 </style>

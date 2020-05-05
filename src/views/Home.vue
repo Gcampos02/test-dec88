@@ -1,7 +1,5 @@
 <template>
   <div class="home">
-    <!-- <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>-->
     <header class="bg-header">
       <div class="center-img">
         <img src="../assets/images/Logo.png" alt="Logo Pastel de Ideias" />
@@ -43,7 +41,14 @@
               <div
                 class="ui-upload d-flex justify-content-center flex-column align-items-center relative"
               >
-                <input @change="captureImg($event)" class="send-img" type="file" id="sendImg" name="img" accept="image/*" />
+                <input
+                  @change="captureImg($event)"
+                  class="send-img"
+                  type="file"
+                  id="sendImg"
+                  name="img"
+                  accept="image/*"
+                />
                 <img
                   src="../assets/images/upload-icon.png"
                   width="48"
@@ -65,16 +70,12 @@
       <p>Veja como será apresentado ao cliente</p>
     </div>
     <section class="container">
-      <!-- <div v-if="isItem" v-for="item in listItem.contracts"> -->
-      <base-item />
-      <!-- </div> -->
+      <base-item :key="item" v-for="(item) in items" :item="item"/>
     </section>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-// import HelloWorld from '@/components/HelloWorld.vue'
 import BaseItem from '@/components/BaseItem.vue'
 
 export default {
@@ -87,8 +88,12 @@ export default {
         valor: '',
         descricao: '',
         image: ''
-      }
+      },
+      items: []
     }
+  },
+  created () {
+    this.getData()
   },
   computed: {
     fileName () {
@@ -102,7 +107,6 @@ export default {
     }
   },
   components: {
-    // HelloWorld
     BaseItem
   },
   methods: {
@@ -113,7 +117,11 @@ export default {
       try {
         const ref = this.$firebase.database().ref(window.uid)
         const id = ref.push().key
-        const picture = await this.$firebase.storage().ref(window.uid).child(this.fileName).put(this.item.image)
+        const picture = await this.$firebase
+          .storage()
+          .ref(window.uid)
+          .child(this.fileName)
+          .put(this.item.image)
         const url = await picture.ref.getDownloadURL()
         const item = {
           id,
@@ -137,6 +145,13 @@ export default {
       this.item.sabor = ''
       this.item.valor = ''
       this.item.descricao = ''
+    },
+    getData () {
+      const ref = this.$firebase.database().ref()
+      ref.on('value', data => {
+        const values = data.val()
+        this.items = Object.keys(values).map(i => values[i])
+      })
     }
   }
 }
