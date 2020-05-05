@@ -1,0 +1,32 @@
+<template>
+  <div class="base-item">
+      <div class="item">
+          <div class="float-img float" :style="{'background-image': 'url(' + item.image + ')'}">
+          </div>
+          <!--<img class="float-img" width='180' height='180' :src="item.image"/>-->
+          <div class="item-box">
+              <div class="item-box-header">
+                  <p class="title">{{item.titulo}}</p>
+                  <p class="value" v-money-format='item.valor'></p>
+              </div>
+              <div class="item-box-body">
+                   <p>Sabor: <span>{{item.sabor}}</span></p>
+                  <p>Descrição: <span>{{item.descricao}}</span></p>
+              </div>
+          </div>
+      </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'BaseItem',
+  props: {
+    item: { type: Object, required: true }
+  }
+}
+</script>
+
+<style scoped lang="scss">
+
+</style>
