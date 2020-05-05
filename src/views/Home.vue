@@ -17,24 +17,24 @@
           <div class="row">
             <div class="col-40">
               <div class="ui-input">
-                <input id="titulo" placeholder="Titulo do pedido" type="text" />
+                <input id="titulo" placeholder="Titulo do pedido" v-model="item.titulo" type="text" />
               </div>
             </div>
             <div class="col-40">
               <div class="ui-input">
-                <input id="sabor" placeholder="Sabor" type="text" />
+                <input id="sabor" placeholder="Sabor" v-model="item.sabor" type="text" />
               </div>
             </div>
             <div class="col-20">
               <div class="ui-input">
-                <input id="valor" placeholder="R$" type="number" />
+                <input id="valor" placeholder="R$" v-model="item.valor" type="number" />
               </div>
             </div>
           </div>
           <div class="row">
             <div class="col">
               <div class="ui-input">
-                <textarea id="descricao" placeholder="Descrição" rows="5"></textarea>
+                <textarea id="descricao" placeholder="Descrição" v-model="item.descricao" rows="5"></textarea>
               </div>
             </div>
           </div>
@@ -43,7 +43,7 @@
               <div
                 class="ui-upload d-flex justify-content-center flex-column align-items-center relative"
               >
-                <input class="send-img" type="file" id="sendImg" name="img" accept="image/*" />
+                <input @change="captureImg($event)" class="send-img" type="file" id="sendImg" name="img" accept="image/*" />
                 <img
                   src="../assets/images/upload-icon.png"
                   width="48"
@@ -79,9 +79,65 @@ import BaseItem from '@/components/BaseItem.vue'
 
 export default {
   name: 'Home',
+  data: () => {
+    return {
+      item: {
+        titulo: '',
+        sabor: '',
+        valor: '',
+        descricao: '',
+        image: ''
+      }
+    }
+  },
+  computed: {
+    fileName () {
+      const { image } = this.item
+      if (image) {
+        const split = image.name.split('.')
+        return `${split[0]}-${new Date().getTime()}.${split[1]}`
+      } else {
+        return ''
+      }
+    }
+  },
   components: {
     // HelloWorld
     BaseItem
+  },
+  methods: {
+    captureImg ({ target }) {
+      this.item.image = target.files[0]
+    },
+    async sendInfo () {
+      try {
+        const ref = this.$firebase.database().ref(window.uid)
+        const id = ref.push().key
+        const picture = await this.$firebase.storage().ref(window.uid).child(this.fileName).put(this.item.image)
+        const url = await picture.ref.getDownloadURL()
+        const item = {
+          id,
+          ...this.item,
+          image: url,
+          createdAt: new Date().getTime()
+        }
+        ref.child(id).set(item, err => {
+          if (err) {
+            console.error(err)
+          } else {
+            this.clearFields()
+          }
+        })
+      } catch (err) {
+        console.error(err)
+      }
+    },
+    clearFields () {
+      this.item.titulo = ''
+      this.item.sabor = ''
+      this.item.valor = ''
+      this.item.descricao = ''
+    }
   }
 }
 </script>
