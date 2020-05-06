@@ -56,7 +56,6 @@
                   id="sendImg"
                   name="img"
                   accept="image/jpeg, image/png"
-                  required
                 />
                 <div v-if="url" class="img-prev">
                 <div class="float-img" :style="{'background-image': 'url('+ url + ')'}"></div>
@@ -87,7 +86,7 @@
       <p>Veja como será apresentado ao cliente</p>
     </div>
     <section class="container">
-      <base-item v-for="(item) in items" :item="item" :itemSelect="itemSelect" :key="item" />
+      <base-item v-for="item in items" :item="item" :itemSelect="itemSelect" :key="item" />
     </section>
   </div>
 </template>
@@ -145,12 +144,16 @@ export default {
           .ref(window.uid)
           .child(this.fileName)
           .put(this.item.image)
-        const url = await picture.ref.getDownloadURL()
+        if (picture.length) {
+          this.url = await picture.ref.getDownloadURL()
+        } else {
+          this.url = 'https://i.ibb.co/j5L9vwm/Group-2.png'
+        }
         const item = {
           id,
           ...this.item,
           tipo: this.itemSelect,
-          image: url,
+          image: this.url,
           createdAt: new Date().getTime()
         }
         ref.child(id).set(item, err => {
@@ -165,7 +168,7 @@ export default {
       }
     },
     choseType () {
-      if (this.checked === true) {
+      if (this.checked) {
         this.itemSelect = 'bebida'
       } else {
         this.itemSelect = 'comida'
