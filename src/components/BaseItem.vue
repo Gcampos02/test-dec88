@@ -3,7 +3,6 @@
       <div class="item">
           <div class="float-img float" :style="{'background-image': 'url(' + item.image + ')'}">
           </div>
-          <!--<img class="float-img" width='180' height='180' :src="item.image"/>-->
           <div class="item-box">
               <div class="item-box-header">
                   <p class="title">{{item.titulo}}</p>
