@@ -114,8 +114,8 @@ export default {
     }
   },
   created () {
-    this.getData()
     this.parallax()
+    this.getData()
   },
   computed: {
     fileName () {
@@ -189,6 +189,7 @@ export default {
         const values = data.val()
         this.items = Object.keys(values).map(i => values[i])
       })
+      this.$root.$emit('Spinner::hide')
     },
     parallax () {
       window.onload = function () {
