@@ -99,6 +99,19 @@ input:not([value=""]):valid ~ label {
     font-weight: 900;
     text-transform: uppercase;
     cursor: pointer;
+    transition: all .2s;
+    &:hover{
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(0,0,0,.2);
+    }
+    &:active{
+      transform: translateY(-1px);
+      box-shadow: 0 5px 10px rgba(0,0,0,.2);
+    }
+    &-animated{
+      animation: moveInBottom .5 ease-out .75s; 
+      animation-fill-mode: backwards
+    }
     &-red {
         background: $red-001;
         color: $white;

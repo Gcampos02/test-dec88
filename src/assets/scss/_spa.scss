@@ -57,23 +57,19 @@
         display: none;
       }
     }
-  }
-  .form {
-    width: 100%;
-    background-color: $white;
-    border-radius: 20px;
-    &:after {
-      content: "";
-      background-image: url("~@/assets/images/pastel-paralax.png");
+    &-l {
       position: absolute;
-      width: 388px;
-      height: 476px;
       top: -285px;
       left: -240px;
       @media (max-width: $tablet) {
         display: none;
       }
     }
+  }
+  .form {
+    width: 100%;
+    background-color: $white;
+    border-radius: 20px;
     &-header {
       background-color: $yellow-000;
       border-radius: 20px 20px 0px 0px;
@@ -181,6 +177,11 @@
   margin-bottom: 40px;
   border-radius: 20px;
   position: relative;
+  transition: .4s;
+  transform: scale(.97);
+  &:hover{
+    transform: scale(1);
+  }
   @media (max-width: $mobile) {
     padding-top: 40px;
     display: flex;

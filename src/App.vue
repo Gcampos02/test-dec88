@@ -1,16 +1,17 @@
 <template>
   <div id="app" class="bg-body">
-    <!-- <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div> -->
     <router-view/>
+    <base-spinner/>
   </div>
 </template>
 
 <script>
+import BaseSpinner from '@/components/global/BaseSpinner.vue'
 export default {
-  name: 'App'
+  name: 'App',
+  components: {
+    BaseSpinner
+  }
 }
 </script>
 
