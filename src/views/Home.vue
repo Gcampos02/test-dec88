@@ -86,7 +86,7 @@
       <p>Veja como será apresentado ao cliente</p>
     </div>
     <section class="container">
-      <base-item v-for="item in items" :item="item" :itemSelect="itemSelect" :key="item" />
+      <base-item v-for="item in items" :item="item" :itemSelect="itemSelect" :key="item.createdAt" />
     </section>
   </div>
 </template>
