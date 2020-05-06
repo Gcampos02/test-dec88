@@ -1,5 +1,5 @@
 <template>
-  <div class="base-item">
+  <div class="base-item" v-if="item.tipo == itemSelect">
       <div class="item">
           <div class="float-img float" :style="{'background-image': 'url(' + item.image + ')'}">
           </div>
@@ -21,7 +21,8 @@
 export default {
   name: 'BaseItem',
   props: {
-    item: { type: Object, required: true }
+    item: { type: Object, required: true },
+    itemSelect: { type: String, required: true }
   }
 }
 </script>

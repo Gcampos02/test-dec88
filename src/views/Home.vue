@@ -13,7 +13,7 @@
           <div class="toggle">
           <p>Comida</p>
           <label class="switch" for="checkbox">
-            <input type="checkbox" id="checkbox" />
+            <input type="checkbox" id="checkbox" v-model="checked" @change="choseType()" />
             <div class="slider round"></div>
           </label>
           <p>Bebida</p>
@@ -87,7 +87,7 @@
       <p>Veja como será apresentado ao cliente</p>
     </div>
     <section class="container">
-      <base-item v-for="(item) in items" :item="item" :key="item" />
+      <base-item v-for="(item) in items" :item="item" :itemSelect="itemSelect" :key="item" />
     </section>
   </div>
 </template>
@@ -104,10 +104,13 @@ export default {
         sabor: '',
         valor: '',
         descricao: '',
+        tipo: '',
         image: ''
       },
       items: [],
-      url: null
+      url: null,
+      itemSelect: 'bebida',
+      checked: Boolean
     }
   },
   created () {
@@ -146,6 +149,7 @@ export default {
         const item = {
           id,
           ...this.item,
+          tipo: this.itemSelect,
           image: url,
           createdAt: new Date().getTime()
         }
@@ -158,6 +162,13 @@ export default {
         })
       } catch (err) {
         console.error(err)
+      }
+    },
+    choseType () {
+      if (this.checked === true) {
+        this.itemSelect = 'bebida'
+      } else {
+        this.itemSelect = 'comida'
       }
     },
     clearFields () {
