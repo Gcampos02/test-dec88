@@ -24,6 +24,9 @@
         @media (max-width: $tablet) {
           width: 70%;
         }
+        @media (max-width: $mobile) {
+          width: 87%;
+        }
         &::placeholder {
             color: $red-000;
         }
@@ -43,6 +46,9 @@
         outline: none;
         @media (max-width: $tablet) {
           width: 94%;
+        }
+        @media (max-width: $mobile) {
+          width: 87%;
         }
         &::placeholder {
             color: $red-000;
@@ -70,6 +76,9 @@ input:not([value=""]):valid ~ label {
     @media (max-width: $tablet) {
       width: 94%;
     }
+    @media (max-width: $mobile) {
+      width: 87%;
+    }
     p {
         font-size: 16px;
         line-height: 21px;
@@ -90,6 +99,19 @@ input:not([value=""]):valid ~ label {
     font-weight: 900;
     text-transform: uppercase;
     cursor: pointer;
+    transition: all .2s;
+    &:hover{
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(0,0,0,.2);
+    }
+    &:active{
+      transform: translateY(-1px);
+      box-shadow: 0 5px 10px rgba(0,0,0,.2);
+    }
+    &-animated{
+      animation: moveInBottom .5 ease-out .75s; 
+      animation-fill-mode: backwards
+    }
     &-red {
         background: $red-001;
         color: $white;

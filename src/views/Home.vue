@@ -1,15 +1,24 @@
 <template>
-  <div class="home">
+  <div id="box" class="home">
     <header class="bg-header">
       <div class="center-img">
         <img src="../assets/images/Logo.png" alt="Logo Pastel de Ideias" />
       </div>
     </header>
     <section class="register">
-      <img class="float-pastel-r z-5" src="../assets/images/pasteis-img.png" alt="Pastel" />
+      <img class="float-pastel-r z-5" id="l1" src="../assets/images/pasteis-img.png" alt="Pastel" />
       <form @submit.prevent="sendInfo()" id="myForm" class="form relative z-15" name="Form">
+      <img class="float-pastel-l z-5" id="l2" src="../assets/images/pastel-paralax.png" alt="Pastel" />
         <div class="form-header">
           <p>Monte aqui o seu cardápio. O que está esperando?</p>
+          <div class="toggle">
+          <p>Comida</p>
+          <label class="switch" for="checkbox">
+            <input type="checkbox" id="checkbox" v-model="checked" @change="choseType()" />
+            <div class="slider round"></div>
+          </label>
+          <p>Bebida</p>
+          </div>
         </div>
         <div class="form-body relative z-20">
           <div class="row">
@@ -48,10 +57,8 @@
                   id="sendImg"
                   name="img"
                   accept="image/jpeg, image/png"
-                  required
                 />
                 <div v-if="url" class="img-prev">
-                 <!--<img width='180' height='180' :src="url" />-->
                 <div class="float-img" :style="{'background-image': 'url('+ url + ')'}"></div>
                 <div class="aling-info">
                 <p>{{ item.image.name }}</p>
@@ -70,9 +77,9 @@
             </div>
           </div>
         </div>
-        <div class="row-btn">
-          <button type="button" class="btn btn-red" v-on:click="clearFields()">Limpar</button>
-          <button class="btn btn-yellow">Cadastrar</button>
+        <div class="row-btn z-20">
+          <button type="button" class="btn btn-animated btn-red" v-on:click="clearFields()">Limpar</button>
+          <button class="btn btn-animated btn-yellow">Cadastrar</button>
         </div>
       </form>
     </section>
@@ -80,7 +87,7 @@
       <p>Veja como será apresentado ao cliente</p>
     </div>
     <section class="container">
-      <base-item v-for="(item) in items" :item="item" :key="item" />
+      <base-item v-for="item in items" :item="item" :itemSelect="itemSelect" :key="item.createdAt" />
     </section>
   </div>
 </template>
@@ -97,13 +104,17 @@ export default {
         sabor: '',
         valor: '',
         descricao: '',
+        tipo: '',
         image: ''
       },
       items: [],
-      url: null
+      url: null,
+      itemSelect: 'bebida',
+      checked: Boolean
     }
   },
   created () {
+    this.parallax()
     this.getData()
   },
   computed: {
@@ -135,11 +146,16 @@ export default {
           .ref(window.uid)
           .child(this.fileName)
           .put(this.item.image)
-        const url = await picture.ref.getDownloadURL()
+        if (picture.length) {
+          this.url = await picture.ref.getDownloadURL()
+        } else {
+          this.url = 'https://i.ibb.co/j5L9vwm/Group-2.png'
+        }
         const item = {
           id,
           ...this.item,
-          image: url,
+          tipo: this.itemSelect,
+          image: this.url,
           createdAt: new Date().getTime()
         }
         ref.child(id).set(item, err => {
@@ -151,6 +167,13 @@ export default {
         })
       } catch (err) {
         console.error(err)
+      }
+    },
+    choseType () {
+      if (this.checked) {
+        this.itemSelect = 'bebida'
+      } else {
+        this.itemSelect = 'comida'
       }
     },
     clearFields () {
@@ -166,6 +189,29 @@ export default {
         const values = data.val()
         this.items = Object.keys(values).map(i => values[i])
       })
+      this.$root.$emit('Spinner::hide')
+    },
+    parallax () {
+      window.onload = function () {
+        var parallaxBox = document.getElementById('box')
+        var c2left = document.getElementById('l2').offsetLeft
+        var c2top = document.getElementById('l2').offsetTop
+
+        parallaxBox.addEventListener('mousemove', event => {
+          event = event || window.event
+          var x = event.clientX - parallaxBox.offsetLeft
+          var y = event.clientY - parallaxBox.offsetTop
+          mouseParallax('l2', c2left, c2top, x, y, 5)
+          function mouseParallax (id, left, top, mouseX, mouseY, speed) {
+            var obj = document.getElementById(id)
+            var parentObj = obj.parentNode
+            var containerWidth = parseInt(parentObj.offsetWidth)
+            var containerHeight = parseInt(parentObj.offsetHeight)
+            obj.style.left = left - (((mouseX - (parseInt(obj.offsetWidth) / 2 + left)) / containerWidth) * speed) + 'px'
+            obj.style.top = top - (((mouseY - (parseInt(obj.offsetHeight) / 2 + top)) / containerHeight) * speed) + 'px'
+          }
+        })
+      }
     }
   }
 }
