@@ -70,9 +70,9 @@
                   width="48"
                   height="45"
                   alt="Icone envio de arquivo"
-                  v-if="url == null"
+                  v-if="url == null || this.ImageGeneric"
                 />
-                <p v-if="url == null">Jogue aqui o arquivo de imagem do seu pastel ou clique para localizar a pasta.</p>
+                <p v-if="url == null || this.ImageGeneric">Jogue aqui o arquivo de imagem do seu pastel ou clique para localizar a pasta.</p>
               </div>
             </div>
           </div>
@@ -110,10 +110,12 @@ export default {
       items: [],
       url: null,
       itemSelect: 'bebida',
-      checked: Boolean
+      checked: Boolean,
+      ImageGeneric: 'https://i.ibb.co/j5L9vwm/Group-2.png'
     }
   },
   created () {
+    this.$root.$emit('Spinner::show')
     this.parallax()
     this.getData()
   },
@@ -141,15 +143,15 @@ export default {
       try {
         const ref = this.$firebase.database().ref(window.uid)
         const id = ref.push().key
-        const picture = await this.$firebase
-          .storage()
-          .ref(window.uid)
-          .child(this.fileName)
-          .put(this.item.image)
-        if (picture.length) {
+        if (this.item.image) {
+          const picture = await this.$firebase
+            .storage()
+            .ref(window.uid)
+            .child(this.fileName)
+            .put(this.item.image)
           this.url = await picture.ref.getDownloadURL()
         } else {
-          this.url = 'https://i.ibb.co/j5L9vwm/Group-2.png'
+          this.url = this.ImageGeneric
         }
         const item = {
           id,
@@ -181,6 +183,8 @@ export default {
       this.item.sabor = ''
       this.item.valor = ''
       this.item.descricao = ''
+      this.ImageGeneric = 'https://i.ibb.co/j5L9vwm/Group-2.png'
+      this.item.image = ''
       this.url = null
     },
     getData () {
